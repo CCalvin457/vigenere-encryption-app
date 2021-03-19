@@ -1,9 +1,31 @@
-.mainContent {
+.main-content {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.mainForm {
+.main-form {
   width: 50%;
+  text-align: center;
+}
+
+.bottom-padding {
+  padding-bottom: 20px;
+}
+
+.top-padding {
+  padding-top: 20px;
+}
+
+.results-title {
+  text-align: center;
+}
+
+
+.input-message {
+  width: 90%;
+}
+
+.input-key {
+  width: 60%;
 }
