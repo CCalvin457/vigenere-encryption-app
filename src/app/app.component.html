@@ -1,34 +1,37 @@
 <html>
   <!-- TODO: header? -->
-  <h1 class="mat-display-3">Vigenère Cipher</h1>
+  <h1 class="mat-display-3">{{title}}</h1>
   <!-- main content -->
   <section class="main-content">
     <mat-card class="main-form">
       <div class="bottom-padding">
+        <mat-button-toggle-group>
+          <mat-button-toggle [value]="true" checked (change)="isEncryptingToggle($event.value)">Encrypt</mat-button-toggle>
+          <mat-button-toggle [value]="false" (change)="isEncryptingToggle($event.value)">Decrypt</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <div class="bottom-padding">
         <mat-form-field class="input-message">
           <mat-label>Message to Encrypt</mat-label>
-          <textarea matInput cdkTextareaAutosize></textarea>
+          <textarea matInput cdkTextareaAutosize [(ngModel)]="message"></textarea>
         </mat-form-field>
       </div>
 
       <div class="bottom-padding">
         <mat-form-field class="input-key">
           <mat-label>Encryption Key</mat-label>
-          <input matInput>
+          <input matInput [(ngModel)]="encryptionKey">
         </mat-form-field>
-      </div>
-
-      <div class="bottom-padding">
-        <mat-button-toggle-group>
-          <mat-button-toggle value="Encrypt" checked>Encrypt</mat-button-toggle>
-          <mat-button-toggle value="Decrypt">Decrypt</mat-button-toggle>
-        </mat-button-toggle-group>
       </div>
 
       <mat-divider [inset]="true"></mat-divider>
 
       <div class="top-padding">
         <p class="results-title">Results</p>
+        <div>
+          {{encryptedMessage}}
+        </div>
       </div>
     </mat-card>
   </section>
