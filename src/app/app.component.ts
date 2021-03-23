@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Vigenere } from 'src/encryption/vigenere';
 
 @Component({
@@ -6,26 +6,54 @@ import { Vigenere } from 'src/encryption/vigenere';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  title = 'Vigenère Cipher';
-  encryptedMessage: string = '';
-  isEncrypting: boolean = true;
 
-  private _message: string = ''
+export class AppComponent implements OnInit {
+  title: string;
+  encryptedMessage: string;
+  isEncrypting: boolean = true;
+  vigenere: Vigenere;
+
+  private _message: string;
   get message(): string {
     return this._message;
   }
   set message(value: string) {
     if(value != this._message) {
       this._message = value;
-      console.log(this._message);
-      this.encryptedMessage = this.isEncrypting == true ? Vigenere.Encrypt(this._message, this.encryptionKey) : Vigenere.Decrypt(this._message, this.encryptionKey);
+      this.vigenere.message = value;
+      // Encrypts or decrypts message in real time
+      this.encryptedMessage = this.isEncrypting == true ?
+        this.vigenere.Encrypt() : this.vigenere.Decrypt();
     }
   }
-  encryptionKey: string = 'Good fortune';
+
+  private _encryptionKey: string;
+  get encryptionKey(): string {
+    return this._encryptionKey;
+  }
+  set encryptionKey(value: string) {
+    if(value != this._encryptionKey) {
+      this._encryptionKey = value;
+      this.vigenere.key = value;
+    }
+  }
+
+  constructor() {
+    this.title = 'Vigenère Cipher'
+    this._message = '';
+    this._encryptionKey = 'Your secret key here';
+    this.encryptedMessage = '';
+    this.vigenere = new Vigenere();
+  }
+
+  ngOnInit() {
+    this.vigenere.key = this._encryptionKey;
+  }
 
   isEncryptingToggle(value: boolean) {
     this.isEncrypting = value;
-    console.log(typeof(this.isEncrypting));
+    // Update results on toggle
+    this.encryptedMessage = this.isEncrypting == true ?
+        this.vigenere.Encrypt() : this.vigenere.Decrypt();
   }
 }
