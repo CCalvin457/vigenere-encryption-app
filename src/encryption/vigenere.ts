@@ -1,6 +1,6 @@
 export class Vigenere {
-  private static NUM_OF_ASCII_VALUES = 26;
-  private static STARTING_VALUE = 65;
+  private static NUM_OF_ASCII_VALUES = 95;
+  private static STARTING_VALUE = 32;
 
   static matchKeyLength(message: string, key: string) {
     if(key.length == message.length) {
@@ -26,13 +26,15 @@ export class Vigenere {
     var encryptedMessage: string = '';
 
     for(var i = 0; i < message.length; i++) {
-      var charValue = messageChars[i].charCodeAt(0) + keyChars[i].charCodeAt(0);
-      console.log(`${messageChars[i].charCodeAt(0)} + ${keyChars[i].charCodeAt(0)}`);
+      // subtract 32 to offset ascii table by 32 (we only care about the printable characters)
+      var keyValue = keyChars[i].charCodeAt(0) - 32;
+      var charValue = (messageChars[i].charCodeAt(0) - 32) + keyValue;
+
+      // console.log(`${messageChars[i].charCodeAt(0) - 32} + ${keyValue}`);
+
       encryptedChar = charValue % this.NUM_OF_ASCII_VALUES;
-      console.log(encryptedChar);
+      // console.log(encryptedChar);
       encryptedMessage += String.fromCharCode(this.STARTING_VALUE + encryptedChar);
-      // encryptedMessage += this.characterTable[encryptedChar];
-      // console.log(encryptedMessage);
     }
 
     return encryptedMessage;
@@ -46,12 +48,15 @@ export class Vigenere {
     var decryptedMessage: string = '';
 
     for(var i = 0; i < message.length; i++) {
-      var charValue = messageChars[i].charCodeAt(0) - keyChars[i].charCodeAt(0);
+      // subtract 32 to offset ascii table by 32 (we only care about the printable characters)
+      var keyValue = keyChars[i].charCodeAt(0) - 32;
+      var charValue = (messageChars[i].charCodeAt(0) - 32) - keyValue;
+
       if(charValue < 0) {
         charValue += this.NUM_OF_ASCII_VALUES;
       }
 
-      console.log(`${messageChars[i].charCodeAt(0)} - ${keyChars[i].charCodeAt(0)}`);
+      // console.log(`${messageChars[i].charCodeAt(0) - 32} - ${keyValue}`);
       decryptedChar = charValue % this.NUM_OF_ASCII_VALUES;
       console.log(decryptedChar);
       decryptedMessage += String.fromCharCode(this.STARTING_VALUE + decryptedChar);
