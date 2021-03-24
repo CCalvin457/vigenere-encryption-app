@@ -22,8 +22,7 @@ export class AppComponent implements OnInit {
       this._message = value;
       this.vigenere.message = value;
       // Encrypts or decrypts message in real time
-      this.encryptedMessage = this.isEncrypting == true ?
-        this.vigenere.Encrypt() : this.vigenere.Decrypt();
+      this.displayResults();
     }
   }
 
@@ -35,6 +34,7 @@ export class AppComponent implements OnInit {
     if(value != this._encryptionKey) {
       this._encryptionKey = value;
       this.vigenere.key = value;
+      this.displayResults();
     }
   }
 
@@ -53,7 +53,18 @@ export class AppComponent implements OnInit {
   isEncryptingToggle(value: boolean) {
     this.isEncrypting = value;
     // Update results on toggle
-    this.encryptedMessage = this.isEncrypting == true ?
-        this.vigenere.Encrypt() : this.vigenere.Decrypt();
+    this.displayResults();
+  }
+
+  displayResults() {
+    if(this._message && this._encryptionKey) {
+      if(this.isEncrypting) {
+        this.encryptedMessage = this.vigenere.Encrypt();
+      } else {
+        this.encryptedMessage = this.vigenere.Decrypt();
+      }
+    } else {
+      this.encryptedMessage = '';
+    }
   }
 }

@@ -11,9 +11,8 @@ export class Vigenere {
   set message(value: string) {
     if(value != this._message) {
       this._message = value;
-      var formattedKey = Vigenere.MatchKeyLength(this._message, this._key);
       this._messageChars = [...this._message];
-      this._keyChars = [...formattedKey];
+      this._keyChars = Vigenere.MatchKeyLength(this._message, this._key);
     }
   }
 
@@ -24,8 +23,7 @@ export class Vigenere {
   set key(value: string) {
     if(value != this._key) {
       this._key = value;
-      var formattedKey = Vigenere.MatchKeyLength(this._message, this._key);
-      this._keyChars = [...formattedKey];
+      this._keyChars = Vigenere.MatchKeyLength(this._message, this._key);
     }
   }
 
@@ -37,8 +35,8 @@ export class Vigenere {
   }
 
   static MatchKeyLength(message: string, key: string) {
-    if(key.length == message.length) {
-      return key;
+    if(key.length <= 0) {
+      return [];
     }
 
     while(key.length < message.length) {
@@ -49,7 +47,7 @@ export class Vigenere {
       key = key.slice(0, message.length);
     }
 
-    return key;
+    return [...key];
   }
 
   Encrypt() {
